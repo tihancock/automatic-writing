@@ -24,7 +24,7 @@
       (.-value)))
 
 (defn num-words [text]
-  (count (.match text (js/RegExp. "[^ ] [^ ]" "g")))) ;; FIXME - find a better way of doing this when the internet returns
+  (count (.split text (js/RegExp. " " "g"))))
 
 (defn time-in-minutes
   [current-time-ms start-time-ms]
