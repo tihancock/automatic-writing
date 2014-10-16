@@ -27,4 +27,5 @@
                    :margin-left :auto
                    :margin-right :auto
                    :top "50%"
-                   :transform "translateY(-50%)"}])
+                   :transform "translateY(-50%)"
+                   :font-size "14px"}])
