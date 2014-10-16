@@ -4,6 +4,8 @@
 (defonce state (r/atom {:start-time nil
                         :wpm        0}))
 
+(def wpm-target 40)
+
 (def keycode->key
   {32 :space})
 
@@ -34,7 +36,8 @@
     (swap! state assoc :start-time (.getTime (js/Date.)))))
 
 (defn writing []
-  [:div {:id :automatic-writing}
+  [:div {:id    :automatic-writing
+         :style {:background-color (if (> (:wpm @state) wpm-target) :green :red)}}
    [:div {:id :wpm} (str (int (:wpm @state)) " wpm")]
    [:textarea {:id        :writing-area
                :on-change set-start-time!}]])
