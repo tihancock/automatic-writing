@@ -30,9 +30,10 @@
      60000))
 
 (defn update-wpm! []
-  (if-let [start-time (:start-time @state)]
-    (swap! state assoc :wpm (/ (num-words (get-current-text))
-                               (time-in-minutes (.getTime (js/Date.)) start-time)))))
+  (swap! state assoc :wpm (if-let [start-time (:start-time @state)]
+                            (/ (num-words (get-current-text))
+                               (time-in-minutes (.getTime (js/Date.)) start-time))
+                            0)))
 
 (defn set-start-time! []
   (case (count (get-current-text))
