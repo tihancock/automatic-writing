@@ -29,14 +29,17 @@
                    :max-height "80%"
                    :max-width "75%"
                    :font-size "14px"
-                   :border-width "5px"}]
+                   :border-width "5px"
+                   :padding "0px"}]
 
   [:#button-container {:position :fixed
                        :left   "180px"
                        :right  "180px"
                        :bottom "20px"
                        :height "40px"
-                       :width  "75%"}]
+                       :width  "75%"
+                       :padding "5px"
+                       :margin "5px"}]
 
   [:#submit-button {:position :relative
                     :margin-left "80%"
