@@ -15,10 +15,12 @@
   [:#wpm {:position :fixed
           :left "30px"
           :top "10%"
-          :width "120px"}]
+          :width "120px"
+          :font-size "30px"}]
 
   [:#writing-area {:resize :none
-                   :position :relative
+                   :position :fixed
+                   :left "180px"
                    :height "80%"
                    :width "75%"
                    :display :block
