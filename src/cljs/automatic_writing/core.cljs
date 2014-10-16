@@ -1,5 +1,6 @@
 (ns automatic-writing.core
-  (:require [reagent.core :as r]))
+  (:require [reagent.core :as r]
+            [clojure.string :refer [join]]))
 
 (defonce state (r/atom {:start-time nil
                         :wpm        0}))
@@ -9,13 +10,13 @@
 (def keycode->key
   {32 :space})
 
-(def colours
-  {:succeeding-foreground  "#32cd32"
-   :succeeding-background  "#e0ffff"
-   :failing-foreground     "#ff4500"
-   :failing-background     "#ffe4c4"
-   :not-writing-foreground "#696969"
-   :not-writing-background "#dcdcdc"})
+(defn get-colour-class
+  [writing succeeding type]
+  (let [writing-state (cond
+                       (not writing) :not-writing
+                       succeeding    :succeeding
+                       :else         :failing)]
+    (join "-" (map name [writing-state type]))))
 
 (defn get-current-text
   []
@@ -48,23 +49,13 @@
         writing    (and (boolean (:start-time @state))
                         (not (zero? wpm)))
         succeeding (> wpm wpm-target)]
-    [:div {:id :automatic-writing
-           :style {:background-color (cond
-                                      (not writing) (:not-writing-background colours)
-                                      succeeding    (:succeeding-background colours)
-                                      :else         (:failing-background colours))}}
-     [:div {:id :wpm
-            :style {:color (cond
-                            (not writing) (:not-writing-foreground colours)
-                            succeeding    (:succeeding-foreground colours)
-                            :else         (:failing-foreground colours))}} 
+    [:div {:id      :automatic-writing
+           :class   [(get-colour-class writing succeeding :background)]}
+     [:div {:id      :wpm
+            :class   [(get-colour-class writing succeeding :text)]}
       (str (int (:wpm @state)) " wpm")]
      [:textarea {:id        :writing-area
-                 :style     {:border-width "5px"
-                             :border-color (cond
-                                            (not writing) (:not-writing-foreground colours)
-                                            succeeding    (:succeeding-foreground colours)
-                                            :else         (:failing-foreground colours))}
+                 :class     [(get-colour-class writing succeeding :border)]
                  :on-change set-start-time!}]]))
 
 (defn main []
