@@ -33,11 +33,14 @@
     (swap! state assoc :start-time (.getTime (js/Date.)))))
 
 (defn writing []
-  [:div {:id    :automatic-writing
-         :style {:background-color (if (> (:wpm @state) wpm-target) :green :red)}}
-   [:div {:id :wpm} (str (int (:wpm @state)) " wpm")]
-   [:textarea {:id        :writing-area
-               :on-change set-start-time!}]])
+  (let [succeeding (> (:wpm @state) wpm-target)]
+    [:div {:id :automatic-writing
+           :style {:background-color (if succeeding "#e0ffff" "#ffe4c4")}}
+     [:div {:id :wpm} (str (int (:wpm @state)) " wpm")]
+     [:textarea {:id        :writing-area
+                 :style     {:border-width "5px"
+                             :border-color (if succeeding "#32cd32" "#ff4500")}
+                 :on-change set-start-time!}]]))
 
 (defn main []
   (js/setInterval update-wpm! 500)
