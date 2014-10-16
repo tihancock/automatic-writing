@@ -13,7 +13,7 @@
 (defn get-colour-class
   [writing succeeding type]
   (let [writing-state (cond
-                       (not writing) :not-writing
+                       (not writing) :default
                        succeeding    :succeeding
                        :else         :failing)]
     (join "-" (map name [writing-state type]))))
@@ -58,8 +58,11 @@
         writing    (and (boolean (:start-time @state))
                         (not (zero? wpm)))
         succeeding (> wpm wpm-target)]
-    [:div {:id      :automatic-writing
-           :class   [(get-colour-class writing succeeding :background)]}
+    (set! (-> js/document
+              (.getElementById "app")
+              (.-className))
+          (get-colour-class writing succeeding :background))
+    [:div {:class :content}
      [:div {:id      :wpm
             :class   [(get-colour-class writing succeeding :text)]}
       (str (int (:wpm @state)) " wpm")]

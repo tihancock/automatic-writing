@@ -1,4 +1,4 @@
 (ns automatic-writing.pages.view)
 
 (defn view []
-  [:div "VIEWS HERE"])
+  [:div {:class :content} "VIEWS HERE"])

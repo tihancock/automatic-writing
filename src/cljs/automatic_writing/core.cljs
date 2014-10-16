@@ -16,7 +16,7 @@
                :on-click #(swap! app-state assoc :current-page page)} name])])
 
 (defn app []
-  [:div {:class :container}
+  [:div {:id :container}
    [header]
    [(:current-page @app-state)]])
 
