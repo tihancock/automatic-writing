@@ -9,6 +9,11 @@
           :height "100%"
           :width "100%"}]
 
+  [:#header {:position :fixed
+             :height "5%"
+             :width "100%"
+             :background-color "#dcdcdc"}]
+
   [:#automatic-writing {:height "100%"
                         :width "100%"}]
 
@@ -45,6 +50,14 @@
                     :margin-left "80%"
                     :height "100%"
                     :width "20%"
+                    :font-size "14px"}]
+
+  [:.container {:height "100%"
+                :width "100%"}]
+
+  [:.header-button {:height "100%"
+                    :min-width "10%"
+                    :margin "0px"
                     :font-size "14px"}]
 
   [:.not-writing-background {:background-color "#dcdcdc"}]

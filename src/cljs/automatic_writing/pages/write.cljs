@@ -52,7 +52,8 @@
   (swap! state (constantly {:start-time nil
                             :wpm        0})))
 
-(defn writing []
+(defn write []
+  (js/setInterval update-wpm! 500)
   (let [wpm        (:wpm @state)
         writing    (and (boolean (:start-time @state))
                         (not (zero? wpm)))
@@ -67,4 +68,4 @@
                  :on-change set-start-time!}]
      [:div {:id :button-container}
       [:button {:id       :submit-button
-                :on-click submit-writing!} "Submit"]]]))
+                :on-click submit-writing!} "submit"]]]))
