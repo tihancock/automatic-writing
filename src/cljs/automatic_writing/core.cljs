@@ -13,9 +13,8 @@
       (.getElementById "writing-area")
       (.-value)))
 
-(defn num-words []
-  (let [current-text (get-current-text)]
-    (count (.match current-text (js/RegExp. "[^ ] [^ ]" "g"))))) ;; FIXME - find a better way of doing this when the internet returns
+(defn num-words [text]
+  (count (.match text (js/RegExp. "[^ ] [^ ]" "g")))) ;; FIXME - find a better way of doing this when the internet returns
 
 (defn time-in-minutes
   [current-time-ms start-time-ms]
@@ -27,26 +26,21 @@
     (swap! state
            (fn [s] (update-in s
                               [:wpm]
-                              (fn [old-wpm] (/ (num-words)
+                              (fn [old-wpm] (/ (num-words (get-current-text))
                                                (time-in-minutes (.getTime (js/Date.)) (:start-time s)))))))))
 
 (defn set-start-time! []
-  (let [current-text (get-current-text)]
-    (when (= 1 (count current-text))
-      (swap! state assoc :start-time (.getTime (js/Date.))))))
-
-(defn wpm []
-  (fn []
-    (js/setInterval update-wpm! 500)
-    [:div {:id :wpm} (str (int (:wpm @state)) " wpm")]))
+  (when (= 1 (count (get-current-text)))
+    (swap! state assoc :start-time (.getTime (js/Date.)))))
 
 (defn writing []
   [:div {:id :automatic-writing}
-   [wpm]
+   [:div {:id :wpm} (str (int (:wpm @state)) " wpm")]
    [:textarea {:id        :writing-area
                :on-change set-start-time!}]])
 
 (defn main []
+  (js/setInterval update-wpm! 500)
   (r/render-component
    [writing]
    (.getElementById js/document "app")))
