@@ -44,6 +44,14 @@
     1 (swap! state assoc :start-time (.getTime (js/Date.)))
     nil))
 
+(defn submit-writing! []
+  ;; FIXME - POST current text
+  (set! (-> js/document
+            (.getElementById "writing-area")
+            (.-value)) "")
+  (swap! state (constantly {:start-time nil
+                            :wpm        0})))
+
 (defn writing []
   (let [wpm        (:wpm @state)
         writing    (and (boolean (:start-time @state))
@@ -56,7 +64,10 @@
       (str (int (:wpm @state)) " wpm")]
      [:textarea {:id        :writing-area
                  :class     [(get-colour-class writing succeeding :border)]
-                 :on-change set-start-time!}]]))
+                 :on-change set-start-time!}]
+     [:div {:id :button-container}
+      [:button {:id       :submit-button
+                :on-click submit-writing!} "Submit"]]]))
 
 (defn main []
   (js/setInterval update-wpm! 500)

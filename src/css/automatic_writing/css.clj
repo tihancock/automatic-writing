@@ -21,15 +21,28 @@
   [:#writing-area {:resize :none
                    :position :fixed
                    :left "180px"
-                   :height "80%"
-                   :width "75%"
-                   :display :block
-                   :margin-left :auto
-                   :margin-right :auto
-                   :top "50%"
-                   :transform "translateY(-50%)"
+                   :right "180px"
+                   :bottom "80px"
+                   :top "80px"
+                   :min-height "5em"
+                   :min-width  "75%"
+                   :max-height "80%"
+                   :max-width "75%"
                    :font-size "14px"
                    :border-width "5px"}]
+
+  [:#button-container {:position :fixed
+                       :left   "180px"
+                       :right  "180px"
+                       :bottom "20px"
+                       :height "40px"
+                       :width  "75%"}]
+
+  [:#submit-button {:position :relative
+                    :margin-left "80%"
+                    :height "100%"
+                    :width "20%"
+                    :font-size "14px"}]
 
   [:.not-writing-background {:background-color "#dcdcdc"}]
   [:.succeeding-background  {:background-color "#e0ffff"}]
