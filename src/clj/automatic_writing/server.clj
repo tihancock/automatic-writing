@@ -12,11 +12,15 @@
 (deftemplate page
   (io/resource "index.html") [] [:body] (if is-dev? inject-devmode-html identity))
 
+(def writings (atom []))
+
 (defroutes routes
   (resources "/")
   (resources "/react" {:root "react"})
   (GET "/" req (page))
-  (POST "/writing" [automatic-writing] (println (str "text: " automatic-writing))))
+  (GET "/views" [] (pr-str @writings))
+  (POST "/writing" [automatic-writing] (do (swap! writings conj automatic-writing)
+                                           {:status 200})))
 
 (def http-handler
   (if is-dev?
