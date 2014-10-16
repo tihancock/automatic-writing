@@ -1,7 +1,7 @@
 (ns automatic-writing.server
   (:require [clojure.java.io :as io]
             [automatic-writing.dev :refer [is-dev? inject-devmode-html browser-repl start-figwheel]]
-            [compojure.core :refer [GET defroutes]]
+            [compojure.core :refer [GET POST defroutes]]
             [compojure.route :refer [resources]]
             [compojure.handler :refer [api]]
             [net.cgrand.enlive-html :refer [deftemplate]]
@@ -15,7 +15,8 @@
 (defroutes routes
   (resources "/")
   (resources "/react" {:root "react"})
-  (GET "/*" req (page)))
+  (GET "/" req (page))
+  (POST "/writing" [automatic-writing] (println (str "text: " automatic-writing))))
 
 (def http-handler
   (if is-dev?
@@ -29,7 +30,7 @@
       (let [port (Integer. (or port (env :port) 10555))]
         (print "Starting web server on port" port ".\n")
         (run-jetty http-handler {:port port
-                          :join? false}))))
+                                 :join? false}))))
   server)
 
 (defn -main [& [port]]

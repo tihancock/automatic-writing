@@ -1,6 +1,9 @@
 (ns automatic-writing.core
+  (:require-macros [cljs.core.async.macros :refer [go]])
   (:require [reagent.core :as r]
-            [clojure.string :refer [join]]))
+            [clojure.string :refer [join]]
+            [cljs-http.client :as http]
+            [cljs.core.async :refer [<! take!]]))
 
 (defonce state (r/atom {:start-time nil
                         :wpm        0}))
@@ -45,7 +48,7 @@
     nil))
 
 (defn submit-writing! []
-  ;; FIXME - POST current text
+  (http/post "/writing" {:form-params {:automatic-writing (get-current-text)}})
   (set! (-> js/document
             (.getElementById "writing-area")
             (.-value)) "")

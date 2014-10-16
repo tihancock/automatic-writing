@@ -17,7 +17,8 @@
                  [com.cemerick/piggieback "0.1.3"]
                  [leiningen "2.5.0"]
                  [weasel "0.4.0-SNAPSHOT"]
-                 [garden "1.2.1"]]
+                 [garden "1.2.1"]
+                 [cljs-http "0.1.17"]]
 
   :plugins [[lein-cljsbuild "1.0.3"]
             [lein-environ "1.0.0"]
