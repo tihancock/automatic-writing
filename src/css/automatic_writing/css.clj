@@ -9,12 +9,20 @@
           :height "100%"
           :width "100%"}]
 
-  [:#writing {:resize :none
-              :position :relative
-              :height "80%"
-              :width "75%"
-              :display :block
-              :margin-left :auto
-              :margin-right :auto
-              :top "50%"
-              :transform "translateY(-50%)"}])
+  [:#automatic-writing {:height "100%"
+                        :width "100%"}]
+
+  [:#wpm {:position :fixed
+          :left "30px"
+          :top "10%"
+          :width "120px"}]
+
+  [:#writing-area {:resize :none
+                   :position :relative
+                   :height "80%"
+                   :width "75%"
+                   :display :block
+                   :margin-left :auto
+                   :margin-right :auto
+                   :top "50%"
+                   :transform "translateY(-50%)"}])
