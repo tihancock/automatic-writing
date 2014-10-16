@@ -44,8 +44,10 @@
     nil))
 
 (defn writing []
-  (let [writing    (boolean (:start-time @state))
-        succeeding (> (:wpm @state) wpm-target)]
+  (let [wpm        (:wpm @state)
+        writing    (and (boolean (:start-time @state))
+                        (not (zero? wpm)))
+        succeeding (> wpm wpm-target)]
     [:div {:id :automatic-writing
            :style {:background-color (cond
                                       (not writing) (:not-writing-background colours)
