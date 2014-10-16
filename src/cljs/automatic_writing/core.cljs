@@ -9,6 +9,12 @@
 (def keycode->key
   {32 :space})
 
+(def colours
+  {:succeeding-foreground "#32cd32"
+   :succeeding-background "#e0ffff"
+   :failing-foreground    "#ff4500"
+   :failing-background    "#ffe4c4"})
+
 (defn get-current-text
   []
   (-> js/document
@@ -29,17 +35,31 @@
                                (time-in-minutes (.getTime (js/Date.)) start-time)))))
 
 (defn set-start-time! []
-  (when (= 1 (count (get-current-text)))
-    (swap! state assoc :start-time (.getTime (js/Date.)))))
+  (case (count (get-current-text))
+    0 (swap! state assoc :start-time nil)
+    1 (swap! state assoc :start-time (.getTime (js/Date.)))
+    nil))
 
 (defn writing []
-  (let [succeeding (> (:wpm @state) wpm-target)]
+  (let [writing    (boolean (:start-time @state))
+        succeeding (> (:wpm @state) wpm-target)]
     [:div {:id :automatic-writing
-           :style {:background-color (if succeeding "#e0ffff" "#ffe4c4")}}
-     [:div {:id :wpm} (str (int (:wpm @state)) " wpm")]
+           :style {:background-color (cond
+                                      (not writing) :white
+                                      succeeding    (:succeeding-background colours)
+                                      :else         (:failing-background colours))}}
+     [:div {:id :wpm
+            :style {:color (cond
+                            (not writing) :grey
+                            succeeding    (:succeeding-foreground colours)
+                            :else         (:failing-foreground colours))}} 
+      (str (int (:wpm @state)) " wpm")]
      [:textarea {:id        :writing-area
                  :style     {:border-width "5px"
-                             :border-color (if succeeding "#32cd32" "#ff4500")}
+                             :border-color (cond
+                                            (not writing) :grey
+                                            succeeding    (:succeeding-foreground colours)
+                                            :else         (:failing-foreground colours))}
                  :on-change set-start-time!}]]))
 
 (defn main []
