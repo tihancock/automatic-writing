@@ -10,10 +10,12 @@
   {32 :space})
 
 (def colours
-  {:succeeding-foreground "#32cd32"
-   :succeeding-background "#e0ffff"
-   :failing-foreground    "#ff4500"
-   :failing-background    "#ffe4c4"})
+  {:succeeding-foreground  "#32cd32"
+   :succeeding-background  "#e0ffff"
+   :failing-foreground     "#ff4500"
+   :failing-background     "#ffe4c4"
+   :not-writing-foreground "#696969"
+   :not-writing-background "#dcdcdc"})
 
 (defn get-current-text
   []
@@ -46,19 +48,19 @@
         succeeding (> (:wpm @state) wpm-target)]
     [:div {:id :automatic-writing
            :style {:background-color (cond
-                                      (not writing) :white
+                                      (not writing) (:not-writing-background colours)
                                       succeeding    (:succeeding-background colours)
                                       :else         (:failing-background colours))}}
      [:div {:id :wpm
             :style {:color (cond
-                            (not writing) :grey
+                            (not writing) (:not-writing-foreground colours)
                             succeeding    (:succeeding-foreground colours)
                             :else         (:failing-foreground colours))}} 
       (str (int (:wpm @state)) " wpm")]
      [:textarea {:id        :writing-area
                  :style     {:border-width "5px"
                              :border-color (cond
-                                            (not writing) :grey
+                                            (not writing) (:not-writing-foreground colours)
                                             succeeding    (:succeeding-foreground colours)
                                             :else         (:failing-foreground colours))}
                  :on-change set-start-time!}]]))
