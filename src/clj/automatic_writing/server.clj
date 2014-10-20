@@ -7,19 +7,18 @@
             [net.cgrand.enlive-html :refer [deftemplate]]
             [ring.middleware.reload :as reload]
             [environ.core :refer [env]]
-            [ring.adapter.jetty :refer [run-jetty]]))
+            [ring.adapter.jetty :refer [run-jetty]]
+            [automatic-writing.db :as db]))
 
 (deftemplate page
   (io/resource "index.html") [] [:body] (if is-dev? inject-devmode-html identity))
-
-(def writings (atom []))
 
 (defroutes routes
   (resources "/")
   (resources "/react" {:root "react"})
   (GET "/" req (page))
-  (GET "/views" [] (pr-str @writings))
-  (POST "/writing" [automatic-writing] (do (swap! writings conj automatic-writing)
+  (GET "/views" [] (pr-str (db/get-writings)))
+  (POST "/writing" [automatic-writing] (do (db/add-writing automatic-writing)
                                            {:status 200})))
 
 (def http-handler
@@ -28,6 +27,8 @@
     (api routes)))
 
 (defn run [& [port]]
+  (if is-dev? (db/drop-tables))
+  (db/create-tables)
   (defonce ^:private server
     (do
       (if is-dev? (start-figwheel))

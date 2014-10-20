@@ -11,7 +11,7 @@
   (if-let [writings (:writings @state)]
     [:ul
      (for [w writings]
-       [:li w])]))
+       [:li (:automatic_writing w)])]))
 
 (defn view []
   (go (let [result (<! (http/get "/views"))

@@ -18,7 +18,9 @@
                  [leiningen "2.5.0"]
                  [weasel "0.4.0-SNAPSHOT"]
                  [garden "1.2.1"]
-                 [cljs-http "0.1.17"]]
+                 [cljs-http "0.1.17"]
+                 [org.clojure/java.jdbc "0.3.5"]
+                 [com.h2database/h2 "1.3.170"]]
 
   :plugins [[lein-cljsbuild "1.0.3"]
             [lein-environ "1.0.0"]
