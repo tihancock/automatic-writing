@@ -15,7 +15,7 @@
 
   [:#wpm {:position :fixed
           :left "30px"
-          :top "10%"
+          :top "80px"
           :width "120px"
           :font-size "30px"}]
 
